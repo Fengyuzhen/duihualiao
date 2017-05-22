@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="css/dialog.css"/>
+		<!--<script type="text/javascript" src="js/dialog.js"></script>-->
+		<style type="text/css">
+			* {margin:0;padding:0}
+		</style>
+		
+		<script type="text/javascript">
+		
+		window.onload = function(){
+		
+		var gameDialog = function(id,text,speed){
+			var box = document.getElementById(id);
+			var text = text;
+			var len = text.length; //获得文本的长度
+			var timer = 0;
+			var index = 0;
+			var character = '';
+			var flag = false; //默认不允许点击
+			function start(){
+				box.innerHTML = '';
+				timer = setInterval(function(){
+					if(box.scrollHeight > box.clientHeight){ //滚动的高度
+						//将溢出的那个字保存在下来
+						character = text.charAt(index - 1); //因为上一次已经 ++了，所以这里要减一
+						clearInterval(timer);
+						//当一段对话结束了，就允许点击
+				        flag = true;
+						return;
+					}
+				    if(index == len){
+				        clearInterval(timer);
+				        
+				    }
+				    
+				    if(character){
+						box.innerHTML += character;
+						character = '';//重置该字符
+					}else{
+						box.innerHTML += text.charAt(index++);
+					}
+					
+				},speed);
+			}
+			
+			start();
+			
+			box.onclick = function(){
+				if(flag){
+					start(); 	 //当你允许点击的时候，才触发start函数，否则不好意思，点击无效
+					flag = false;//触发成功后,回到之前的状态
+				}
+				
+			}
+		}
+
+	
+			
+	gameDialog('content',
+			" 简书客户端中包含杂文时政、小说诗歌、电影评论、科技新闻，无论你的兴趣如何构成，总能在这里找到志趣相投的作者与内容。"+
+			" 简书始终致力于做中文世界最好的写作与阅读平台，集结最优秀的创作者与文字爱好者，在嘈杂喧嚣的网络时代，重新沉淀并唤醒文字的力量。" +
+			" 简书客户端中包含杂文时政、小说诗歌、电影评论、科技新闻，无论你的兴趣如何构成，总能在这里找到志趣相投的作者与内容。"+
+			" 简书始终致力于做中文世界最好的写作与阅读平台，集结最优秀的创作者与文字爱好者，在嘈杂喧嚣的网络时代，重新沉淀并唤醒文字的力量。" 
+		,28);
+		
+		}
+		
+		
+
+		</script>
+	</head>
+	<body>
+		<div  class='box'>
+			<span class='font'></span>
+			<div id = 'innerBox' class='innerBox'>
+				<div id='content'></div>
+			</div>
+		</div>
+	</body>
+</html>
